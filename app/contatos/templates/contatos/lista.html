@@ -1,0 +1,47 @@
+{% extends "contatos/base.html" %}
+
+{% block title %}Consultar Registros — Django K3s{% endblock %}
+
+{% block content %}
+<section class="card">
+    <div class="card-header">
+        <h2>Registros Cadastrados</h2>
+        <span class="badge">Total: {{ total_registros }}</span>
+    </div>
+
+    {% if contatos %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Mensagem</th>
+                        <th>Data / Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in contatos %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td><strong>{{ item.nome }}</strong></td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.mensagem|linebreaksbr }}</td>
+                            <td>{{ item.criado_em|date:"d/m/Y H:i:s" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty">
+            <p>Nenhum registro cadastrado ainda.</p>
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <a href="{% url 'contatos:cadastro' %}" class="btn btn-primary">+ Novo Cadastro</a>
+    </div>
+</section>
+{% endblock %}
