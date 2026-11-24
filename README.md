@@ -60,6 +60,93 @@ Repositório da atividade prática de implantação de uma aplicação web desen
 
 ---
 
+## Dependências e Instalação via Terminal
+
+### Lista de Dependências
+
+| Categoria | Dependência | Versão / Detalhe | Onde é usada |
+| :--- | :--- | :--- | :--- |
+| **Sistema** | **Git** | 2.x+ | Clonar e versionar o repositório |
+| **Sistema** | **Docker Desktop** (Engine + Compose + Buildx) | 24+ / Compose v2 | Build da imagem e execução local (`docker compose`) |
+| **Sistema** | **kubectl** | 1.28+ | Gerenciar recursos no cluster Kubernetes (K3s) |
+| **Sistema** *(opcional)* | **Azure CLI (`az`)** | 2.x+ | Gerenciar VMs, VNets e NSGs no Microsoft Azure |
+| **Sistema** *(opcional)* | **Python 3** (`pip` + `venv`) | 3.12+ | Desenvolvimento/execução da app fora do Docker |
+| **Python** (`app/requirements.txt`) | `Django` | `5.1.7` | Framework web da aplicação |
+| **Python** (`app/requirements.txt`) | `PyMySQL` | `1.1.1` | Driver MySQL em Python puro |
+| **Python** (`app/requirements.txt`) | `cryptography` | `44.0.2` | Suporte à autenticação `caching_sha2_password` do MySQL 8 |
+| **Python** (`app/requirements.txt`) | `gunicorn` | `23.0.0` | Servidor WSGI de produção |
+| **Imagens Docker** | `python:3.12-slim`, `mysql:8.0` | Oficiais Docker Hub | Base da aplicação e container do banco de dados |
+
+---
+
+### Instalação no macOS (via Terminal / Homebrew)
+
+1. **Instale o Homebrew** (caso ainda não tenha):
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. **Instale Git, Docker Desktop e kubectl:**
+```bash
+brew install git kubernetes-cli
+brew install --cask docker
+```
+> Após instalar o Docker Desktop, abra o app uma vez (`open -a Docker`) para iniciar o daemon do Docker.
+
+3. ***(Opcional)* Instale Azure CLI e Python 3.12:**
+```bash
+brew install azure-cli python@3.12
+```
+
+4. ***(Opcional)* Instale as dependências Python localmente (ambiente virtual):**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r app/requirements.txt
+```
+
+---
+
+### Instalação no Windows (via PowerShell / `winget`)
+
+> Abra o **PowerShell** (ou Terminal do Windows) **como Administrador**.
+
+1. **Instale Git, Docker Desktop e kubectl:**
+```powershell
+winget install --id Git.Git -e --source winget
+winget install --id Docker.DockerDesktop -e --source winget
+winget install --id Kubernetes.kubectl -e --source winget
+```
+> O Docker Desktop no Windows utiliza WSL 2. Se ainda não tiver o WSL habilitado, execute `wsl --install`, reinicie o computador e abra o Docker Desktop.
+
+2. ***(Opcional)* Instale Azure CLI e Python 3.12:**
+```powershell
+winget install --id Microsoft.AzureCLI -e --source winget
+winget install --id Python.Python.3.12 -e --source winget
+```
+
+3. ***(Opcional)* Instale as dependências Python localmente (ambiente virtual):**
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r app\requirements.txt
+```
+
+---
+
+### Verificar se tudo foi instalado corretamente (macOS e Windows)
+
+```bash
+git --version
+docker --version
+docker compose version
+kubectl version --client
+```
+
+---
+
 ## Como Executar Localmente (Docker Compose)
 
 ```bash
